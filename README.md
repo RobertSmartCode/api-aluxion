@@ -1,6 +1,12 @@
 # API-ALUXION
 
+Requerimientos: Debe tener instaldo docker en su ordenador->https://www.docker.com/
+
 Recuerden que deben de ejecutar:
+
+** Crear el archivo .env y colocar todos lo valores que están en el archivo .example.env
+
+**Comandos para Linux/UBUNTU
 
 
 sudo docker build -t api-aluxion .  //Constuir Imagen
