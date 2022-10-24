@@ -16,7 +16,6 @@ class Server {
             archivos:   '/api/archivos',
             usuarios:   '/api/usuarios',
             uploads:    '/api/uploads',
-            upload:     '/api/upload',
             imagenes:   '/api/imagenes',
         }
 
@@ -63,7 +62,6 @@ class Server {
         this.app.use( this.paths.archivos, require('../routes/archivos'));
         this.app.use( this.paths.usuarios, require('../routes/usuarios'));
         this.app.use( this.paths.uploads,  require('../routes/uploads'));
-        this.app.use( this.paths.upload,   require('../routes/upload'));
         this.app.use( this.paths.imagenes, require('../routes/imagenes'));
         
     }

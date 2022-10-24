@@ -1,8 +1,8 @@
 FROM node:16
 
 # Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+#RUN mkdir -p /usr/src/app
+WORKDIR /app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
@@ -16,6 +16,6 @@ RUN npm install
 COPY . .
 
 
-EXPOSE 8080
+EXPOSE 8090
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "start"]
