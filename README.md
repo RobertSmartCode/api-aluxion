@@ -1,5 +1,6 @@
 # API-ALUXION
 
+Prueba de git
 Requerimientos: Debe tener instaldo docker en su ordenador->https://www.docker.com/
 
 Recuerden que deben de ejecutar:
