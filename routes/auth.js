@@ -2,10 +2,15 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 
-const { validarCampos } = require('../middlewares/validar-campos');
+const JWT_SECRET =process.env.JWT_SECRET
 
+const { validarJWT, validarCampos} = require('../middlewares');
 
-const { login, googleSignin } = require('../controllers/auth');
+const { login,
+        googleSignin, 
+        forgotPassword,
+        getResetPassword,
+        postResetPassword} = require('../controllers/auth');
 
 
 const router = Router();
@@ -22,5 +27,10 @@ router.post('/google',[
 ], googleSignin );
 
 
+router.post("/forgot-password", forgotPassword);
+  
+router.get("/reset-password/:id/:token", getResetPassword);
+  
+router.post("/reset-password/:id/:token", postResetPassword );
 
 module.exports = router;
