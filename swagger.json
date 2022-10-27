@@ -1,0 +1,599 @@
+
+{
+    "openapi": "3.0.3",
+    "info": {
+        "description": "API para manejar Archivos",
+        "version": "1.0.0",
+        "title": "API ALUXION",
+        "contact": {
+            "email": "robertsmartcode@gmail.com"
+        }
+      
+    },
+    "schemes": ["http"],
+    "host": "localhost:8090",
+    "basePath": "/api",
+    "paths" : {
+
+      "/auth/google" : {
+          "post" : {
+              "summary" : "Integración con Google SingIn",
+              "description": "Envía los datos de google a la base de datos",
+              "produces": ["application/json"],
+              "parameters": ["id_token"],
+              "responses": {
+                  "200": {
+                      "description": "successful operation",
+                      "schema": {
+                          "type": "array",
+                          "items": {
+                              "$ref": "#/definitions/todosResponse"
+                          }
+                      }
+                  },
+                  "400": {
+                      "description": "Invalid status value",
+                      "schema": {
+                          "$ref": "#/definitions/InvalidResponse"
+                      }
+                  }
+              }
+          }
+      },
+      "/auth/login" : {
+        "post" : {
+            "summary" : "Login",
+            "description": "Verifica el correo y contraseña sean correctos para generar un token de inicio de sesión",
+            "produces": ["application/json"],
+            "parameters": ["correo", "password"],
+            "responses": {
+                "200": {
+                    "description": "successful operation",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/todosResponse"
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Invalid status value",
+                    "schema": {
+                        "$ref": "#/definitions/InvalidResponse"
+                    }
+                }
+            }
+        }
+    },
+    "/auth/forgot-password" : {
+      "post" : {
+          "summary" : "Servicio para cuando se olvide la contraseña",
+          "description": "Envía un link al correo para recuperar la contraseña",
+          "produces": ["application/json"],
+          "parameters": ["correo"],
+          "responses": {
+              "200": {
+                  "description": "successful operation",
+                  "schema": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/definitions/todosResponse"
+                      }
+                  }
+              },
+              "400": {
+                  "description": "Invalid status value",
+                  "schema": {
+                      "$ref": "#/definitions/InvalidResponse"
+                  }
+              }
+          }
+      }
+  },
+  "/auth/reset-password/{token}" : {
+    "get" : {
+        "summary" : "Link de recuperación de contraseña",
+        "description": "Este link es enviado al correo con un token en la url con un tiempo limitado",
+        "produces": ["application/json"],
+        "responses": {
+            "200": {
+                "description": "successful operation",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/todosResponse"
+                    }
+                }
+            },
+            "400": {
+                "description": "Invalid status value",
+                "schema": {
+                    "$ref": "#/definitions/InvalidResponse"
+                }
+            }
+        }
+    },
+    "post" : {
+      "summary" : "Restablecer contraseña",
+      "description": "Envía la nueva contraseña para ser grabada en la base de datos",
+      "produces": ["application/json"],
+      "parameters": ["password"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  }
+},
+
+"/usuarios" : {
+  "post" : {
+      "summary" : "Crea Usuario",
+      "description": "Grabas los datos introducidos por el usuario en la base de datos",
+      "produces": ["application/json"],
+      "parameters": [ "nombre","correo","password"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  }
+},
+
+"/usuarios?desde=5&limite=1" : {
+  "get" : {
+      "summary" : "Paginado de los usuario",
+      "description": "Muestra los usuarios grabados en la base de datos en la url tiene los parametros desde y limite para configurar la petición de los usuarios",
+      "produces": ["application/json"],
+      "parameters": ["desde","limite"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  }
+},
+
+"/usuarios/{id}" : {
+  "put" : {
+      "summary" : "Actualizar Usuario",
+      "description": "Se puede actualizar cualquier propiedad del usuario",
+      "produces": ["application/json"],
+      "parameters": [
+          {
+              "name": "id",
+              "in": "path",
+              "description": "task id that needs to be deleted",
+              "required": true,
+              "type": "string"
+          },
+          {
+              "in": "body",
+              "name": "body",
+              "description": "task object",
+              "required": true,
+              "schema": {
+                  "type": "object",
+                  "properties": {
+                      "task" : {
+                          "type": "object",
+                          "$ref": "#/definitions/Task"
+                      } 
+                  }
+              }
+          }
+      ],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  },
+
+  "delete" : {
+    "summary" : "Eliminar Usuario",
+    "description": "Se cambia el estado del usuario a false pero si existiendo en la base de datos",
+    "produces": ["application/json"],
+    "parameters": [
+        {
+            "name": "id",
+            "in": "path",
+            "description": "task id that needs to be deleted",
+            "required": true,
+            "type": "string"
+        }
+    ],
+    "responses": {
+        "200": {
+            "description": "successful operation",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/todosResponse"
+                }
+            }
+        },
+        "400": {
+            "description": "Invalid status value",
+            "schema": {
+                "$ref": "#/definitions/InvalidResponse"
+            }
+        }
+    }
+}
+},
+"/archivos" : {
+  "post" : {
+      "summary" : "Crear Nombre Archivo",
+      "description": "Envía los datos de google a la base de datos",
+      "produces": ["application/json"],
+      "parameters": [ "token","nombre"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  },
+  "get" : {
+    "summary" : "Obtener todos loa archivos",
+    "description": "Hace un llamado a todos archivos guardados en la base de datos",
+    "produces": ["application/json"],
+    "parameters": ["token"],
+    "responses": {
+        "200": {
+            "description": "successful operation",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/todosResponse"
+                }
+            }
+        },
+        "400": {
+            "description": "Invalid status value",
+            "schema": {
+                "$ref": "#/definitions/InvalidResponse"
+            }
+        }
+    }
+}
+},
+"/archivos/{id}" : {
+  "get" : {
+    "summary" : "Obtener Archivo por id",
+    "description": "Busca en la base de datos el muestra un usuario por id",
+    "produces": ["application/json"],
+    "parameters": ["token"],
+    "responses": {
+        "200": {
+            "description": "successful operation",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/todosResponse"
+                }
+            }
+        },
+        "400": {
+            "description": "Invalid status value",
+            "schema": {
+                "$ref": "#/definitions/InvalidResponse"
+            }
+        }
+    }
+},
+  "put" : {
+      "summary" : "Actualizar el Archivo por ID",
+      "description": "Puedes cambiar el nombre del archivo",
+      "produces": ["application/json"],
+      "parameters": ["token"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  },
+  "delete" : {
+    "summary" : "Eliminar archivo",
+    "description": "Marca el estado del archivo como false aún está en la base de datos",
+    "produces": ["application/json"],
+    "parameters": ["token"],
+    "responses": {
+        "200": {
+            "description": "successful operation",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/todosResponse"
+                }
+            }
+        },
+        "400": {
+            "description": "Invalid status value",
+            "schema": {
+                "$ref": "#/definitions/InvalidResponse"
+            }
+        }
+    }
+}
+},
+
+
+"/uploads/usuarios/{id}" : {
+  "put" : {
+      "summary" : "Cargar y actualizar la Imagen del Usuario en la base de datos",
+      "description": "Carga la Imagen del Usuario en la base de datos",
+      "produces": ["application/json"],
+      "parameters": ["id_token"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  },
+  "get" : {
+    "summary" : "Obtener Imagen de Usuario",
+    "description": "Devuelve la url de la imagen del Usuario",
+    "produces": ["application/json"],
+    "parameters": ["id_token"],
+    "responses": {
+        "200": {
+            "description": "successful operation",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/todosResponse"
+                }
+            }
+        },
+        "400": {
+            "description": "Invalid status value",
+            "schema": {
+                "$ref": "#/definitions/InvalidResponse"
+            }
+        }
+    }
+}
+},
+
+"/uploads/archivos/{id}" : {
+  "post" : {
+      "summary" : "Cargar Archivo",
+      "description": "Cargar Archivo en la base de datos",
+      "produces": ["application/json"],
+      "parameters": ["id_token"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  },
+  "get" : {
+    "summary" : "Obtener el URL del archivo",
+    "description": "Envía los datos de google a la base de datos",
+    "produces": ["application/json"],
+    "parameters": ["token"],
+    "responses": {
+        "200": {
+            "description": "successful operation",
+            "schema": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/todosResponse"
+                }
+            }
+        },
+        "400": {
+            "description": "Invalid status value",
+            "schema": {
+                "$ref": "#/definitions/InvalidResponse"
+            }
+        }
+    }
+}
+},
+"/buscar/usuarios/{nombre}" : {
+  "get" : {
+      "summary" : "Burcar Usuario por Nombre",
+      "description": "Usando el nombre del usuario como parametro para hacer una busquerda en la base de datos ",
+      "produces": ["application/json"],
+      "parameters": ["token", "nombre"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  }
+},
+"/buscar/archivos/{nombre}" : {
+  "get" : {
+      "summary" : "Buscar archivo por nombre",
+      "description": "Usando el nombre del archivo como parametro para hacer una busquerda en la base de datos",
+      "produces": ["application/json"],
+      "parameters": ["token", "nombre"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  }
+},
+"/imagenes?busqueda={string}&paginaactual={number}" : {
+  "post" : {
+      "summary" : "Busca Imagenes en la API PixaBay",
+      "description": "El usuario introduce una palabra y le envía una lista de imagenes desde la API de Pixabay",
+      "produces": ["application/json"],
+      "parameters": ["token","busqueda","paginaactual"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  }
+},
+"/imagenes" : {
+  "put" : {
+      "summary" : "Graba Imagen en AWS S3",
+      "description": "El usuario elige una foto de la API Pixabay y este servicio guarda esa imagen en AWS S3",
+      "produces": ["application/json"],
+      "parameters": ["token", "url"],
+      "responses": {
+          "200": {
+              "description": "successful operation",
+              "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/definitions/todosResponse"
+                  }
+              }
+          },
+          "400": {
+              "description": "Invalid status value",
+              "schema": {
+                  "$ref": "#/definitions/InvalidResponse"
+              }
+          }
+      }
+  }
+}
+
+
+
+
+
+
+}
+
+}

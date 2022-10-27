@@ -1,8 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-
 const { dbConnection } = require('../database/config');
+
+//Swagger
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json'); 
+const { options } = require('../helpers');
+const swaggerSpec = swaggerJSDoc(options);
+
 
 class Server {
 
@@ -52,7 +59,8 @@ class Server {
             tempFileDir : '/tmp/',
             createParentPath: true
         }));
-
+        this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+        //this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
     }
 
     routes() {

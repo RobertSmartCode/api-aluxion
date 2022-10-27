@@ -27,3 +27,4 @@ sudo docker logs <container id> // Muesta los logs
 
 Running on http://localhost:8090
 
+La documentación está en: http://localhost:8090/api-docs/
